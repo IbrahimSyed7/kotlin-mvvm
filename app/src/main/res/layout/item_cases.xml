@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_95sdp"
+    android:layout_marginLeft="@dimen/_4sdp"
+    android:layout_marginTop="@dimen/_9sdp"
+    android:layout_marginRight="@dimen/_4sdp"
+    android:background="@drawable/bg_curve">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                app:tint="#208AEA"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/confirm" />
+
+            <TextView
+                android:id="@+id/total_confirmed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manrope_regular"
+                android:paddingStart="@dimen/_4sdp"
+                android:text="Total Confirmed"
+                android:textColor="#5B5B5B"
+                android:textSize="@dimen/_10ssp" />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:padding="@dimen/_2sdp"
+
+            app:tint="#E65050"
+            android:src="@drawable/deceased" />
+
+        <TextView
+            android:id="@+id/total_deceases"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope_regular"
+            android:text="Total Deceased"
+            android:textColor="#5B5B5B"
+            android:paddingStart="@dimen/_4sdp"
+            android:textSize="@dimen/_10ssp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            app:tint="#2AD51D"
+            android:padding="@dimen/_2sdp"
+
+            android:src="@drawable/recovered" />
+        <TextView
+            android:id="@+id/total_recovered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope_regular"
+               android:paddingStart="@dimen/_4sdp"
+            android:text="Total Recovered"
+            android:textColor="#5B5B5B"
+            android:textSize="@dimen/_10ssp" />
+    </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/date_bg"
+        android:backgroundTint="@color/colorPrimary"
+        android:fontFamily="@font/manrope_light"
+        android:gravity="center"
+        android:paddingLeft="@dimen/_12sdp"
+        android:paddingTop="@dimen/_4sdp"
+        android:paddingRight="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_4sdp"
+        android:text="30 january 2022"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/bookmark_imgview"
+        android:layout_width="@dimen/_28sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/bg_round_stroke"
+        android:padding="@dimen/_6sdp"
+        android:src="@drawable/star_outlined"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/colorPrimary" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
