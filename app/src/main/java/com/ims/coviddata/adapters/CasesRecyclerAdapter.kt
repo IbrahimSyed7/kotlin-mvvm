@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ims.coviddata.BookMarkActivity
 import com.ims.coviddata.R
+import com.ims.coviddata.database.MainRoomDatabase
 import com.ims.coviddata.databinding.ItemCasesBinding
 import com.ims.coviddata.models.Cases
 
@@ -17,15 +19,15 @@ class CasesRecyclerAdapter(val context: Context, val casesClickEvents: CasesClic
     RecyclerView.Adapter<CasesRecyclerAdapter.CasesVH>() {
 
     var list = ArrayList<Cases>()
-    var position = -1
     fun updateData(list: ArrayList<Cases>) {
         this.list = list
         notifyDataSetChanged()
     }
 
     interface CasesClickEvents {
-        fun onClickBookMark(cases: Cases)
-        fun onDeleteBookMark(cases: Cases,position: Int)
+        fun onClickBookMark(cases: Cases,isInsert : Boolean)
+        fun onDeleteBookMark(cases: Cases, position: Int)
+        fun onClickItem(cases: Cases)
     }
 
     override fun onCreateViewHolder(
@@ -42,20 +44,39 @@ class CasesRecyclerAdapter(val context: Context, val casesClickEvents: CasesClic
         holder.bind.totalConfirmed.text = "Total Confirmed :" + item.totalconfirmed
         holder.bind.totalDeceases.text = "Total Deceased :" + item.totaldeceased
         holder.bind.totalRecovered.text = "Total Recovered :" + item.totalrecovered
+        holder.bind.date.text = item.date
 
-        holder.bind.bookmarkImgview.setOnClickListener {
-            casesClickEvents.onClickBookMark(item)
-            this.position = position
+        val bookmarkedCase = MainRoomDatabase.invoke(context).getMainDao().getCases(item.date)
 
+        if (bookmarkedCase != null) {
             holder.bind.bookmarkImgview.setImageResource(R.drawable.star_fill)
-
-        }
-        if (this.position == position) {
-            holder.bind.bookmarkImgview.setImageResource(R.drawable.star_fill)
+            item.isInserted = true
 
         } else {
             holder.bind.bookmarkImgview.setImageResource(R.drawable.star_outlined)
+        }
 
+        holder.bind.bookmarkImgview.setOnClickListener {
+
+            if (item.isInserted)
+            {
+                holder.bind.bookmarkImgview.setImageResource(R.drawable.star_outlined)
+                casesClickEvents.onClickBookMark(item,isInsert = false)
+                item.isInserted = false
+            }
+            else
+            {
+                holder.bind.bookmarkImgview.setImageResource(R.drawable.star_fill)
+                casesClickEvents.onClickBookMark(item,isInsert = true)
+                item.isInserted = true
+            }
+
+        }
+
+
+
+        holder.bind.root.setOnClickListener {
+            casesClickEvents.onClickItem(cases = item)
         }
 
         //delete functionality
@@ -66,7 +87,8 @@ class CasesRecyclerAdapter(val context: Context, val casesClickEvents: CasesClic
                 ColorStateList.valueOf(context.resources.getColor(R.color.red))
 
             holder.bind.bookmarkImgview.setOnClickListener {
-                casesClickEvents.onDeleteBookMark(item,position)
+                list.removeAt(position)
+                casesClickEvents.onDeleteBookMark(item, position)
             }
         }
 

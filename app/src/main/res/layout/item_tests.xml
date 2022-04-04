@@ -104,6 +104,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/_10sdp"
             android:paddingTop="@dimen/_3sdp"
+            android:id="@+id/source"
             android:paddingRight="@dimen/_10sdp"
             android:paddingBottom="@dimen/_3sdp">
 

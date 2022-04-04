@@ -76,4 +76,9 @@ class MainActivity : AppCompatActivity() {
         var fragmentManager = supportFragmentManager
         fragmentManager.beginTransaction().replace(binding.container.id, fragment).commitNow()
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAllData()
+    }
 }

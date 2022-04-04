@@ -2,95 +2,87 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_95sdp"
-    android:layout_marginLeft="@dimen/_4sdp"
-    android:layout_marginTop="@dimen/_9sdp"
-    android:layout_marginRight="@dimen/_4sdp"
+    android:layout_height="@dimen/_120sdp"
+    android:layout_margin="@dimen/_12sdp"
     android:background="@drawable/bg_curve">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/_120sdp"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/_14sdp"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/total_confirmed"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="@dimen/_16sdp"
-                android:layout_height="@dimen/_16sdp"
-                app:tint="#208AEA"
-                android:padding="@dimen/_2sdp"
-                android:src="@drawable/confirm" />
-
-            <TextView
-                android:id="@+id/total_confirmed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/manrope_regular"
-                android:paddingStart="@dimen/_4sdp"
-                android:text="Total Confirmed"
-                android:textColor="#5B5B5B"
-                android:textSize="@dimen/_10ssp" />
-
-        </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_6sdp"
-        android:gravity="center_vertical">
-
-        <ImageView
-            android:layout_width="@dimen/_16sdp"
-            android:layout_height="@dimen/_16sdp"
-            android:padding="@dimen/_2sdp"
-
-            app:tint="#E65050"
-            android:src="@drawable/deceased" />
+            android:fontFamily="@font/manrope_regular"
+            android:paddingStart="@dimen/_4sdp"
+            android:text="Total Confirmed"
+            android:textColor="#5B5B5B"
+            android:textSize="@dimen/_10ssp" />
 
         <TextView
             android:id="@+id/total_deceases"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/manrope_regular"
+            android:paddingStart="@dimen/_4sdp"
             android:text="Total Deceased"
             android:textColor="#5B5B5B"
-            android:paddingStart="@dimen/_4sdp"
             android:textSize="@dimen/_10ssp" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_6sdp"
-
-        android:gravity="center_vertical">
-
-        <ImageView
-            android:layout_width="@dimen/_16sdp"
-            android:layout_height="@dimen/_16sdp"
-            app:tint="#2AD51D"
-            android:padding="@dimen/_2sdp"
-
-            android:src="@drawable/recovered" />
         <TextView
             android:id="@+id/total_recovered"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/manrope_regular"
-               android:paddingStart="@dimen/_4sdp"
+            android:paddingStart="@dimen/_4sdp"
             android:text="Total Recovered"
             android:textColor="#5B5B5B"
             android:textSize="@dimen/_10ssp" />
-    </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
+            android:background="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/daily_confirmed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope_regular"
+            android:paddingStart="@dimen/_4sdp"
+            android:text="Daily Confirmed"
+            android:textColor="#5B5B5B"
+            android:textSize="@dimen/_10ssp" />
+
+        <TextView
+            android:id="@+id/daily_recovered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope_regular"
+            android:paddingStart="@dimen/_4sdp"
+            android:text="Daily Recovered"
+            android:textColor="#5B5B5B"
+            android:textSize="@dimen/_10ssp" />
+
+        <TextView
+            android:id="@+id/daily_deceased"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope_regular"
+            android:paddingStart="@dimen/_4sdp"
+            android:text="Daily Deceased"
+            android:textColor="#5B5B5B"
+            android:textSize="@dimen/_10ssp" />
+
     </LinearLayout>
 
     <TextView

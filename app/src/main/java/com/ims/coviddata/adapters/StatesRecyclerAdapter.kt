@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ims.coviddata.BookMarkActivity
 import com.ims.coviddata.R
+import com.ims.coviddata.database.MainRoomDatabase
 import com.ims.coviddata.databinding.ItemCasesBinding
 import com.ims.coviddata.databinding.ItemStatesBinding
 import com.ims.coviddata.models.Cases
@@ -17,7 +18,6 @@ import com.ims.coviddata.models.Statewise
 class StatesRecyclerAdapter(val context: Context, val statesClickEvents: StatesClickEvents) : RecyclerView.Adapter<StatesRecyclerAdapter.StatesVH>() {
 
     var list = ArrayList<Statewise>()
-    var position = -1
 
     fun updateData(list: ArrayList<Statewise>) {
         this.list = list
@@ -33,8 +33,9 @@ class StatesRecyclerAdapter(val context: Context, val statesClickEvents: StatesC
     }
 
     interface StatesClickEvents {
-        fun onClickBookMark(statewise: Statewise)
+        fun onClickBookMark(statewise: Statewise,isInsert : Boolean)
         fun onDeleteBookMark(statewise: Statewise,position: Int)
+        fun onClickItem(statewise: Statewise)
     }
 
     override fun onBindViewHolder(holder: StatesRecyclerAdapter.StatesVH, position: Int) {
@@ -50,21 +51,38 @@ class StatesRecyclerAdapter(val context: Context, val statesClickEvents: StatesC
             holder.bind.state.text = item.state
         }
 
+        val bookmarkedCase = MainRoomDatabase.invoke(context).getMainDao().getStates(item.state)
 
-        holder.bind.bookmarkImgview.setOnClickListener {
-            statesClickEvents.onClickBookMark(item)
-            this.position = position
-
+        if (bookmarkedCase != null) {
             holder.bind.bookmarkImgview.setImageResource(R.drawable.star_fill)
-
-        }
-        if (this.position == position) {
-            holder.bind.bookmarkImgview.setImageResource(R.drawable.star_fill)
+            item.isInserted = true
 
         } else {
             holder.bind.bookmarkImgview.setImageResource(R.drawable.star_outlined)
+        }
+
+        holder.bind.bookmarkImgview.setOnClickListener {
+
+            if (item.isInserted)
+            {
+                holder.bind.bookmarkImgview.setImageResource(R.drawable.star_outlined)
+                statesClickEvents.onClickBookMark(item,isInsert = false)
+                item.isInserted = false
+            }
+            else
+            {
+                holder.bind.bookmarkImgview.setImageResource(R.drawable.star_fill)
+                statesClickEvents.onClickBookMark(item,isInsert = true)
+                item.isInserted = true
+            }
 
         }
+
+
+        holder.bind.root.setOnClickListener {
+            statesClickEvents.onClickItem(statewise = item)
+        }
+
         //delete functionality
         if (context as Activity is BookMarkActivity) {
             holder.bind.bookmarkImgview.setImageResource(R.drawable.delete)
@@ -72,6 +90,7 @@ class StatesRecyclerAdapter(val context: Context, val statesClickEvents: StatesC
                 ColorStateList.valueOf(context.resources.getColor(R.color.red))
 
             holder.bind.bookmarkImgview.setOnClickListener {
+                list.removeAt(position)
                 statesClickEvents.onDeleteBookMark(item,position)
             }
         }

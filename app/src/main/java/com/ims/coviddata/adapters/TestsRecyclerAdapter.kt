@@ -6,10 +6,13 @@ import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ims.coviddata.BookMarkActivity
 import com.ims.coviddata.R
+import com.ims.coviddata.database.MainRoomDatabase
 import com.ims.coviddata.databinding.ItemStatesBinding
 import com.ims.coviddata.databinding.ItemTestsBinding
 import com.ims.coviddata.models.Statewise
@@ -21,7 +24,6 @@ class TestsRecyclerAdapter(
 ) : RecyclerView.Adapter<TestsRecyclerAdapter.TestsVH>() {
 
     var list = ArrayList<Tested>()
-    var position = -1
 
     fun updateData(list: ArrayList<Tested>) {
         this.list = list
@@ -37,8 +39,9 @@ class TestsRecyclerAdapter(
     }
 
     interface TestedClickEvents {
-        fun onClickBookMark(tested: Tested)
+        fun onClickBookMark(tested: Tested, isInsert: Boolean)
         fun onDeleteBookMark(tested: Tested, position: Int)
+        fun onClickSource(tested: Tested)
     }
 
     override fun onBindViewHolder(holder: TestsRecyclerAdapter.TestsVH, position: Int) {
@@ -50,19 +53,38 @@ class TestsRecyclerAdapter(
         holder.bind.reportedToday.text = "Samples reported today :" + item.samplereportedtoday
         holder.bind.totalDoses.text = "Total doses administered :" + item.totaldosesadministered
 
-        holder.bind.bookmarkImgview.setOnClickListener {
-            testedClickEvents.onClickBookMark(item)
-            this.position = position
+        val bookmarkedCase = MainRoomDatabase.invoke(context).getMainDao().getTest(item.updatetimestamp)
 
+        if (bookmarkedCase != null) {
             holder.bind.bookmarkImgview.setImageResource(R.drawable.star_fill)
-
-        }
-        if (this.position == position) {
-            holder.bind.bookmarkImgview.setImageResource(R.drawable.star_fill)
+            item.isInserted = true
 
         } else {
             holder.bind.bookmarkImgview.setImageResource(R.drawable.star_outlined)
+        }
 
+        holder.bind.bookmarkImgview.setOnClickListener {
+
+            if (item.isInserted) {
+                holder.bind.bookmarkImgview.setImageResource(R.drawable.star_outlined)
+                testedClickEvents.onClickBookMark(item, isInsert = false)
+                item.isInserted = false
+            } else {
+                holder.bind.bookmarkImgview.setImageResource(R.drawable.star_fill)
+                testedClickEvents.onClickBookMark(item, isInsert = true)
+                item.isInserted = true
+            }
+
+        }
+
+        if (item.source!!.startsWith("https")) {
+            holder.bind.source.visibility = VISIBLE
+        } else {
+            holder.bind.source.visibility = GONE
+        }
+
+        holder.bind.source.setOnClickListener {
+            testedClickEvents.onClickSource(tested = item)
         }
 
         //delete functionality
@@ -73,6 +95,7 @@ class TestsRecyclerAdapter(
                 ColorStateList.valueOf(context.resources.getColor(R.color.red))
 
             holder.bind.bookmarkImgview.setOnClickListener {
+                list.removeAt(position)
                 testedClickEvents.onDeleteBookMark(item, position)
             }
         }

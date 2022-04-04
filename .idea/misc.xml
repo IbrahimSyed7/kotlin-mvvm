@@ -11,6 +11,10 @@
         <entry key="..\:/AndroidWorkSpace/CovidData/app/src/main/res/layout-v28/item_cases.xml" value="0.67" />
         <entry key="..\:/AndroidWorkSpace/CovidData/app/src/main/res/layout/activity_book_mark.xml" value="0.35" />
         <entry key="..\:/AndroidWorkSpace/CovidData/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/AndroidWorkSpace/CovidData/app/src/main/res/layout/dialog_cases_info.xml" value="0.35" />
+        <entry key="..\:/AndroidWorkSpace/CovidData/app/src/main/res/layout/dialog_info.xml" value="0.3432073544433095" />
+        <entry key="..\:/AndroidWorkSpace/CovidData/app/src/main/res/layout/dialog_states_info.xml" value="0.35" />
+        <entry key="..\:/AndroidWorkSpace/CovidData/app/src/main/res/layout/dialog_tested_info.xml" value="0.35" />
         <entry key="..\:/AndroidWorkSpace/CovidData/app/src/main/res/layout/fragment_cases.xml" value="0.3432073544433095" />
         <entry key="..\:/AndroidWorkSpace/CovidData/app/src/main/res/layout/fragment_states.xml" value="0.35" />
         <entry key="..\:/AndroidWorkSpace/CovidData/app/src/main/res/layout/fragment_tests.xml" value="0.35" />

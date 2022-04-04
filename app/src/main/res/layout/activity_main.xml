@@ -20,11 +20,11 @@
             android:id="@+id/total_confirmed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:fontFamily="@font/manrope_bold"
             android:paddingStart="@dimen/_14sdp"
             android:text="Covid Data"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
             android:textColor="@color/white"
             android:textSize="@dimen/_10ssp" />
 

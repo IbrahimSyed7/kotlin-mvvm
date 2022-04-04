@@ -36,10 +36,19 @@ interface MainDao {
     @Query("Select * from cases")
     fun getCases(): LiveData<List<Cases>>
 
+    @Query("Select * from cases where date = :date")
+    fun getCases(date : String): Cases
+
     @Query("Select * from statewise")
     fun getStates(): LiveData<List<Statewise>>
 
+    @Query("Select * from statewise where state = :state")
+    fun getStates(state : String): Statewise
+
     @Query("Select * from tested")
     fun getTest(): LiveData<List<Tested>>
+
+    @Query("Select * from tested where updatetimestamp = :updateTime")
+    fun getTest(updateTime : String): Tested
 
 }

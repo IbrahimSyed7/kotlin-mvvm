@@ -1,6 +1,8 @@
 package com.ims.coviddata.fragments
 
 import android.app.Activity
+import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ims.coviddata.BookMarkActivity
 import com.ims.coviddata.MainActivity
+import com.ims.coviddata.R
 import com.ims.coviddata.adapters.StatesRecyclerAdapter
+import com.ims.coviddata.databinding.DialogStatesInfoBinding
 import com.ims.coviddata.databinding.FragmentStatesBinding
 import com.ims.coviddata.models.Cases
 import com.ims.coviddata.models.Statewise
@@ -60,19 +64,28 @@ class StatesFragment : Fragment() {
     }
 
     fun setRecycler() {
-        statesAdapter = StatesRecyclerAdapter(context = requireContext(),object :StatesRecyclerAdapter.StatesClickEvents{
-            override fun onClickBookMark(statewise: Statewise) {
-                (parentActivity as MainActivity).viewModel.insertState(statewise)
+        statesAdapter = StatesRecyclerAdapter(context = requireContext(),
+            object : StatesRecyclerAdapter.StatesClickEvents {
+                override fun onClickBookMark(statewise: Statewise, isInsert: Boolean) {
+                    if (isInsert) {
+                        (parentActivity as MainActivity).viewModel.insertState(statewise)
+                    } else {
+                        (parentActivity as MainActivity).viewModel.deleteState(statewise)
+                    }
 
-            }
+                }
 
-            override fun onDeleteBookMark(statewise: Statewise,position : Int) {
-                (parentActivity as BookMarkActivity).viewModel.deleteState(statewise)
-                statesAdapter.notifyItemRemoved(position)
+                override fun onDeleteBookMark(statewise: Statewise, position: Int) {
+                    (parentActivity as BookMarkActivity).viewModel.deleteState(statewise)
+                    statesAdapter.notifyItemRemoved(position)
 
-            }
+                }
 
-        })
+                override fun onClickItem(statewise: Statewise) {
+                    openDialog(statewise)
+                }
+
+            })
 
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(context)
@@ -80,5 +93,51 @@ class StatesFragment : Fragment() {
         }
     }
 
+    fun openDialog(statewise: Statewise) {
+        val dialog = Dialog(requireActivity())
 
+        val inflater =
+            requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val binding = DialogStatesInfoBinding.inflate(inflater)
+        dialog.setContentView(binding.root)
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 800)
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialog.setOnCancelListener {
+            statesAdapter.notifyDataSetChanged()
+        }
+
+        if (statewise.isInserted) {
+            binding.bookmarkImgview.setImageResource(R.drawable.star_fill)
+
+        } else {
+            binding.bookmarkImgview.setImageResource(R.drawable.star_outlined)
+
+        }
+
+        binding.bookmarkImgview.setOnClickListener {
+
+            if (statewise.isInserted) {
+                binding.bookmarkImgview.setImageResource(R.drawable.star_outlined)
+                (parentActivity as MainActivity).viewModel.deleteState(statewise)
+
+            } else {
+                binding.bookmarkImgview.setImageResource(R.drawable.star_fill)
+                (parentActivity as MainActivity).viewModel.insertState(statewise)
+            }
+
+        }
+
+        binding.state.text = "State :" + statewise.state
+        binding.active.text = "Active :" + statewise.active
+        binding.deaths.text = "Deceased :" + statewise.deaths
+        binding.totalRecovered.text = "Recovered :" + statewise.recovered
+        binding.deltaConfirm.text = "Delta confirm :" + statewise.deltaconfirmed
+        binding.deltaDeaths.text = "Delta deaths :" + statewise.deltadeaths
+        binding.deltaRecover.text = "Delta recover :" + statewise.deltarecovered
+
+
+
+        dialog.show()
+    }
 }

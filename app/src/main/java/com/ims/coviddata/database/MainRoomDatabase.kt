@@ -9,7 +9,7 @@ import com.ims.coviddata.models.Statewise
 import com.ims.coviddata.models.Tested
 
 
-@Database(entities = [Cases::class, Statewise::class, Tested::class], version = 3)
+@Database(entities = [Cases::class, Statewise::class, Tested::class], version = 4)
 abstract class MainRoomDatabase : RoomDatabase() {
 
     abstract fun getMainDao(): MainDao
@@ -27,6 +27,6 @@ abstract class MainRoomDatabase : RoomDatabase() {
 
         private fun createDatabase(context: Context) =
             Room.databaseBuilder(context, MainRoomDatabase::class.java, "MainRoom.db")
-                .fallbackToDestructiveMigration().build()
+                .fallbackToDestructiveMigration().allowMainThreadQueries().build()
     }
 }
